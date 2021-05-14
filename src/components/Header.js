@@ -1,29 +1,22 @@
-import React from "react";
-import { Link } from "gatsby";
-import { FaGithub } from "react-icons/fa";
+import React from 'react';
+import { Link } from 'gatsby';
 
-import { useSiteMetadata } from "hooks";
-
-import Container from "components/Container";
+import Container from 'components/Container';
 
 const Header = () => {
-  const { companyName, companyUrl } = useSiteMetadata();
-
   return (
     <header>
       <Container type="content">
-        <p>
-          <Link to="/">{companyName}</Link>
-        </p>
+        <p>Coronavirus Tracker</p>
         <ul>
           <li>
-            <Link to="/about/">About</Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href={companyUrl}>
-              <span className="visually-hidden">Github</span>
-              <FaGithub />
-            </a>
+            <Link to="/countries/">Countries</Link>
+          </li>
+          <li>
+            <Link to="/states/">United States</Link>
           </li>
         </ul>
       </Container>
