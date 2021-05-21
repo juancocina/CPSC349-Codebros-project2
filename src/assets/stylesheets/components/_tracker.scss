@@ -1,5 +1,9 @@
-.tracker-stats {
+.tracker {
+  position: relative;
+  margin-top: 100px;
+}
 
+.tracker-stats {
   color: white;
   background-color: $blue-grey-900;
   border-top: solid 1px darken($blue-grey-900, 5);
