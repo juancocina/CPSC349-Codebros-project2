@@ -1,13 +1,13 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import L from 'leaflet';
+import React from "react";
+import { Helmet } from "react-helmet";
+import L from "leaflet";
 
-import { useTracker } from 'hooks';
-import { commafy, friendlyDate } from 'lib/util';
+import { useTracker } from "hooks";
+import { commafy, friendlyDate } from "lib/util";
 
-import Layout from 'components/Layout';
-import Container from 'components/Container';
-import Map from 'components/Map';
+import Layout from "components/Layout";
+import Container from "components/Container";
+import Map from "components/Map";
 
 const LOCATION = {
   lat: 0,
@@ -18,50 +18,50 @@ const DEFAULT_ZOOM = 2;
 
 const IndexPage = () => {
   const { data: stats = {} } = useTracker({
-    api: 'all',
+    api: "all",
   });
 
   const { data: countries = [] } = useTracker({
-    api: 'countries',
+    api: "countries",
   });
 
-  const hasCountries = Array.isArray( countries ) && countries.length > 0;
+  const hasCountries = Array.isArray(countries) && countries.length > 0;
 
   const dashboardStats = [
     {
       primary: {
-        label: 'Total Cases',
-        value: stats ? commafy( stats?.cases ) : '-',
+        label: "Total Cases",
+        value: stats ? commafy(stats?.cases) : "-",
       },
     },
     {
       primary: {
-        label: 'Total Deaths',
-        value: stats ? commafy( stats?.deaths ) : '-',
+        label: "Total Deaths",
+        value: stats ? commafy(stats?.deaths) : "-",
       },
     },
     {
       primary: {
-        label: 'Total Tests',
-        value: stats ? commafy( stats?.tests ) : '-',
+        label: "Total Tests",
+        value: stats ? commafy(stats?.tests) : "-",
       },
     },
     {
       primary: {
-        label: 'Active Cases',
-        value: stats ? commafy( stats?.active ) : '-',
+        label: "Active Cases",
+        value: stats ? commafy(stats?.active) : "-",
       },
     },
     {
       primary: {
-        label: 'Critical Cases',
-        value: stats ? commafy( stats?.critical ) : '-',
+        label: "Critical Cases",
+        value: stats ? commafy(stats?.critical) : "-",
       },
     },
     {
       primary: {
-        label: 'Recovered Cases',
-        value: stats ? commafy( stats?.recovered ) : '-',
+        label: "Recovered Cases",
+        value: stats ? commafy(stats?.recovered) : "-",
       },
     },
   ];
@@ -73,33 +73,33 @@ const IndexPage = () => {
    */
 
   async function mapEffect({ leafletElement: map } = {}) {
-    if ( !hasCountries || !map ) return;
+    if (!hasCountries || !map) return;
 
-    map.eachLayer(( layer ) => {
-      if ( layer?.options?.name === 'OpenStreetMap' ) return;
-      map.removeLayer( layer );
+    map.eachLayer((layer) => {
+      if (layer?.options?.name === "OpenStreetMap") return;
+      map.removeLayer(layer);
     });
 
     const geoJson = {
-      type: 'FeatureCollection',
-      features: countries.map(( country = {}) => {
+      type: "FeatureCollection",
+      features: countries.map((country = {}) => {
         const { countryInfo = {} } = country;
         const { lat, long: lng } = countryInfo;
         return {
-          type: 'Feature',
+          type: "Feature",
           properties: {
             ...country,
           },
           geometry: {
-            type: 'Point',
+            type: "Point",
             coordinates: [lng, lat],
           },
         };
       }),
     };
 
-    const geoJsonLayers = new L.GeoJSON( geoJson, {
-      pointToLayer: ( feature = {}, latlng ) => {
+    const geoJsonLayers = new L.GeoJSON(geoJson, {
+      pointToLayer: (feature = {}, latlng) => {
         const { properties = {} } = feature;
         let updatedFormatted;
         let casesString;
@@ -108,13 +108,13 @@ const IndexPage = () => {
 
         casesString = `${cases}`;
 
-        if ( cases > 1000000 ) {
-          casesString = `${casesString.slice( 0, -6 )}M+`;
-        } else if ( cases > 1000 ) {
-          casesString = `${casesString.slice( 0, -3 )}K+`;
+        if (cases > 1000000) {
+          casesString = `${casesString.slice(0, -6)}M+`;
+        } else if (cases > 1000) {
+          casesString = `${casesString.slice(0, -3)}K+`;
         }
-        if ( updated ) {
-          updatedFormatted = new Date( updated ).toLocaleString();
+        if (updated) {
+          updatedFormatted = new Date(updated).toLocaleString();
         }
 
         const html = `
@@ -132,9 +132,9 @@ const IndexPage = () => {
           </span>
         `;
 
-        return L.marker( latlng, {
+        return L.marker(latlng, {
           icon: L.divIcon({
-            className: 'icon',
+            className: "icon",
             html,
           }),
           riseOnHover: true,
@@ -142,12 +142,12 @@ const IndexPage = () => {
       },
     });
 
-    geoJsonLayers.addTo( map );
+    geoJsonLayers.addTo(map);
   }
 
   const mapSettings = {
     center: CENTER,
-    defaultBaseMap: 'OpenStreetMap',
+    defaultBaseMap: "OpenStreetMap",
     zoom: DEFAULT_ZOOM,
     mapEffect,
   };
@@ -162,22 +162,22 @@ const IndexPage = () => {
         <Map {...mapSettings} />
         <div className="tracker-stats">
           <ul>
-            { dashboardStats.map(({ primary = {} }, i ) => {
+            {dashboardStats.map(({ primary = {} }, i) => {
               return (
                 <li key={`Stat-${i}`} className="tracker-stat">
-                  { primary.value && (
+                  {primary.value && (
                     <p className="tracker-stat-primary">
-                      { primary.value }
-                      <strong>{ primary.label }</strong>
+                      {primary.value}
+                      <strong>{primary.label}</strong>
                     </p>
-                  ) }
+                  )}
                 </li>
               );
-            }) }
+            })}
           </ul>
         </div>
         <div className="tracker-last-updated">
-          <p>Last Updated: { stats ? friendlyDate( stats?.updated ) : '-' }</p>
+          <p>Last Updated: {stats ? friendlyDate(stats?.updated) : "-"}</p>
         </div>
       </div>
 
@@ -185,9 +185,14 @@ const IndexPage = () => {
         <h2>Still Getting Started?</h2>
         <p>Run the following in your terminal!</p>
         <pre>
-          <code>gatsby new [directory] https://github.com/colbyfayock/gatsby-starter-leaflet</code>
+          <code>
+            gatsby new [directory]
+            https://github.com/colbyfayock/gatsby-starter-leaflet
+          </code>
         </pre>
-        <p className="note">Note: Gatsby CLI required globally for the above command</p>
+        <p className="note">
+          Note: Gatsby CLI required globally for the above command
+        </p>
       </Container>
     </Layout>
   );
