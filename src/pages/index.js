@@ -180,7 +180,7 @@ const IndexPage = () => {
           <p>Last Updated: {stats ? friendlyDate(stats?.updated) : "-"}</p>
         </div>
       </div>
-
+      {/*}
       <Container type="content" className="text-center home-start">
         <h2>Still Getting Started?</h2>
         <p>Run the following in your terminal!</p>
@@ -194,6 +194,7 @@ const IndexPage = () => {
           Note: Gatsby CLI required globally for the above command
         </p>
       </Container>
+      */}
     </Layout>
   );
 };
