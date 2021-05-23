@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 
 import Layout from "components/Layout";
 import Container from "components/Container";
-import CountryPicker from "../components/Country-Picker";
+import CountrySelector from "../components/Country-Selector";
 import Chart from "../components/Chart";
 import Cards from "../components/Cards";
 
@@ -44,7 +44,7 @@ class Countries extends React.Component {
           <h1>Countries</h1>
         </Container>
         <Cards data={data} />
-        <CountryPicker handleCountryChange={this.handleCountryChange} />
+        <CountrySelector handleCountryChange={this.handleCountryChange} />
         <Chart data={data} country={country} />
       </Layout>
     );

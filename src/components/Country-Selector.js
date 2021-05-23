@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { NativeSelect } from "@material-ui/core";
 
-import { OptionsDropdownContainer } from "./styles/Country-Picker.styles";
+import { OptionsDropdownContainer } from "./styles/Country-Selector.styles";
 
 import { fetchCountries } from "../hooks/useCountries";
 
-const CountryPicker = ({ handleCountryChange }) => {
+const CountrySelector = ({ handleCountryChange }) => {
   const [fetchedCountries, setFetchedCountries] = useState([]);
 
   useEffect(() => {
@@ -33,4 +33,4 @@ const CountryPicker = ({ handleCountryChange }) => {
   );
 };
 
-export default CountryPicker;
+export default CountrySelector;
