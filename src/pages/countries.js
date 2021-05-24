@@ -46,6 +46,30 @@ class Countries extends React.Component {
         <Cards data={data} />
         <CountrySelector handleCountryChange={this.handleCountryChange} />
         <Chart data={data} country={country} />
+          
+      <Container type="content" className="text-center home-start">
+        <h2>Sources</h2>
+        <pre>
+        <code>
+            gatsby new [directory]
+            https://github.com/colbyfayock/gatsby-starter-leaflet
+
+          </code>
+          <p>
+            API:
+            https://disease.sh/v3/covid-19
+            https://covid19.mathdro.id/api
+          </p>
+          <h2>Authors:</h2>
+          <p>
+            Juan Cocina, Marco Chavez, Tony Nguyen, Shane Wilson.
+          </p>
+        </pre>
+        <p className="note">
+          Note: Gatsby CLI required globally for the above command
+        </p>
+      </Container>
+          
       </Layout>
     );
   }
